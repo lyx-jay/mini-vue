@@ -1,0 +1,15 @@
+{
+  "name": "mini-vue",
+  "version": "1.0.0",
+  "description": "to be a better vue developer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "lyx",
+  "license": "ISC",
+  "dependencies": {
+    "vitest": "^0.33.0"
+  }
+}
