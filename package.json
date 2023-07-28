@@ -4,7 +4,7 @@
   "description": "to be a better vue developer",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest"
   },
   "keywords": [],
   "author": "lyx",
