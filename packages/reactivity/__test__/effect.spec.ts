@@ -35,3 +35,24 @@ it('set a noexisted property in reactive obj', () => {
   expect(spyFn).toHaveBeenCalledTimes(1)
 
 })
+
+
+it('分支切换', () => {
+
+  let dummy: number = 0
+  const counter = createReactiveObj({ num: 1 , ok: true})
+  const spyFn = vi.fn(() => {
+    dummy = counter.ok ? counter.num : dummy
+  })
+
+  effect(spyFn)
+  expect(dummy).toBe(1)
+  expect(spyFn).toHaveBeenCalledTimes(1)
+
+  counter.ok = false
+  expect(spyFn).toHaveBeenCalledTimes(2)
+
+  counter.num = 2
+  expect(spyFn).toHaveBeenCalledTimes(2)
+
+})
