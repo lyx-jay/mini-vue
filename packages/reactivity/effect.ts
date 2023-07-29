@@ -1,15 +1,11 @@
-// export interface ActiveEffect {
-//   deps: any[],
-//   fn: Function
-// }
 
 export interface EffectFn {
   (): void;
   deps: any[]
 }
-
-export let activeEffect:EffectFn
-export function cleanup(effectFn:any) {
+export let activeEffectStack: EffectFn[] = []
+export let activeEffect: EffectFn
+export function cleanup(effectFn: any) {
   effectFn.deps.forEach(deps => {
     deps.delete(effectFn)
   })
@@ -21,9 +17,11 @@ export const effect = (fn: Function) => {
   const effectFn: EffectFn = () => {
     cleanup(effectFn)
     activeEffect = effectFn
+    activeEffectStack.push(effectFn)
     fn()
+    activeEffectStack.pop()
+    activeEffect = activeEffectStack[activeEffectStack.length - 1]
   }
   effectFn.deps = []
   effectFn()
-
 }

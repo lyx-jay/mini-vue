@@ -1,4 +1,4 @@
-import { EffectFn, activeEffect, effect } from './effect'
+import { EffectFn, activeEffect, activeEffectStack, effect } from './effect'
 
 type Reactive = (data: any) => any
 
@@ -36,7 +36,14 @@ function trigger(target: any, key: string | symbol, value: any) {
   if (!depsMap) return
   const effects = depsMap.get(key)
   
-  const effectsToRun = new Set(effects)
+  const effectsToRun = new Set()
+  effects && effects.forEach(effectFn => {
+    // 过滤掉当前正在执行的副作用函数，否则会导致无线循环
+    if (effectFn !== activeEffect) {
+      effectsToRun.add(effectFn)
+    }
+  })
+  
   effectsToRun.forEach((effectFn: EffectFn) => effectFn())
 }
 
