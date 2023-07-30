@@ -1,11 +1,14 @@
 # mini-vue
 
  - [ ] Reactivity
-    - [ ] reactive
+    - [x] reactive
       - [x] 依赖收集与派发更新通知
-    - [ ] effect
+    - [x] effect
         - [x] 基础effect, 响应式数据变化，重新执行 effect 函数
         - [x] 分支切换与cleanup。当一个响应式数据不被使用，无论其值怎么变化，都不会引起副作用函数重新执行
+    - [ ] 调度器
+    - [ ] 计算属性-computed
+    - [ ] watch
 
 
 ## 知识点
