@@ -43,8 +43,13 @@ function trigger(target: any, key: string | symbol, value: any) {
       effectsToRun.add(effectFn)
     }
   })
-  
-  effectsToRun.forEach((effectFn: EffectFn) => effectFn())
+  effectsToRun.forEach((effectFn: EffectFn) => {
+    if (effectFn.options?.scheduler) {
+      effectFn.options.scheduler(effectFn)
+    } else {
+      effectFn()
+    }
+  })
 }
 
 export const createReactiveObj: Reactive = function (data) {

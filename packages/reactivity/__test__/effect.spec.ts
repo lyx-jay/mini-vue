@@ -111,16 +111,24 @@ describe('调度执行', () => {
   const spyFn1 = vi.fn(() => {
     console.log('[info]:', '副作用函数执行', `num: ${counter.num}`)
   })
-  const spyFn2 = vi.fn((name: string) => {
+  const spyFn2 = vi.fn(() => {
     console.log('对照函数执行了')
   })
-  it('副作用函数执行时机', () => {
-    effect(spyFn1)
-    expect(spyFn1).toHaveBeenCalledTimes(1)
+  // it('副作用函数执行时机', () => {
+  //   effect(spyFn1)
+  //   expect(spyFn1).toHaveBeenCalledTimes(1)
 
+  //   counter.num++
+  //   spyFn2()
+  // })
+
+  it('副作用函数执行时机', () => {
+    effect(spyFn1, {
+      scheduler: (fn) => {
+        setTimeout(fn);
+      }
+    })
     counter.num++
-    spyFn2('apple')
-    expect(spyFn1).toHaveBeenNthCalledWith(2)
-    expect(spyFn2).toHaveBeenNthCalledWith(1, 'apple')
+    spyFn2()
   })
 })

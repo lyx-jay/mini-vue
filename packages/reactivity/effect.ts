@@ -1,8 +1,14 @@
 
 export interface EffectFn {
   (): void;
-  deps: any[]
+  deps: any[],
+  options?: EffectOptions
 }
+
+export interface EffectOptions {
+  scheduler?: (fn: EffectFn) => void
+}
+
 export let activeEffectStack: EffectFn[] = []
 export let activeEffect: EffectFn
 export function cleanup(effectFn: any) {
@@ -13,7 +19,7 @@ export function cleanup(effectFn: any) {
   effectFn.deps.length = 0
 }
 
-export const effect = (fn: Function) => {
+export const effect = (fn: Function, options?: EffectOptions) => {
   const effectFn: EffectFn = () => {
     cleanup(effectFn)
     activeEffect = effectFn
@@ -23,5 +29,6 @@ export const effect = (fn: Function) => {
     activeEffect = activeEffectStack[activeEffectStack.length - 1]
   }
   effectFn.deps = []
+  effectFn.options = options
   effectFn()
 }
